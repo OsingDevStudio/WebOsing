@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://osingdevstudio.my.id/sitemap.xml

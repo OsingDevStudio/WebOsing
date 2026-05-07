@@ -1,3 +1,6 @@
+import { useEffect } from "react"; // Tambahkan ini
+import AOS from "aos"; // Tambahkan ini
+import "aos/dist/aos.css"; // Tambahkan ini
 import {
   FaPalette,
   FaBolt,
@@ -29,12 +32,20 @@ const servicesData = [
 ];
 
 const Services = () => {
+  // Inisialisasi AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Durasi animasi (ms)
+      once: true,     // Animasi hanya berjalan sekali saat scroll pertama kali
+    });
+  }, []);
+
   return (
-    <section id="layanan" className="py-24 bg-slate-50">
+    <section id="layanan" className="py-24 bg-slate-50 overflow-hidden">
       <div className="max-w-6xl mx-auto px-5">
         
-        {/* HEADER */}
-        <div className="text-center mb-16">
+        {/* HEADER - Animasi Fade Up */}
+        <div className="text-center mb-16" data-aos="fade-up">
           <span className="inline-block bg-orange-100 text-orange-500 px-4 py-1 rounded-full text-sm font-semibold mb-4">
             Layanan Unggulan
           </span>
@@ -56,6 +67,9 @@ const Services = () => {
             return (
               <div
                 key={index}
+                // Animasi fade-up dengan delay berbeda tiap card (Staggered effect)
+                data-aos="fade-up"
+                data-aos-delay={index * 100} 
                 className="group bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer relative overflow-hidden"
               >
                 {/* ICON */}

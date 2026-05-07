@@ -79,7 +79,7 @@ const Footer = () => {
 
               <li className="flex items-center gap-3 justify-center md:justify-start">
                 <FaEnvelope className="text-orange-500" />
-                info@osingdev.com
+                osingdevstudio@gmail.com
               </li>
 
               <li className="flex items-center gap-3 justify-center md:justify-start">
