@@ -1,5 +1,1 @@
-User-agent: *
-Allow: /
-
-# Link ke sitemap kamu (ganti dengan domain aslimu)
-Sitemap: https://domainkamu.com/sitemap.xml
+Sitemap: https://osingdevstudio/sitemap.xml
