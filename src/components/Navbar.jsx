@@ -65,7 +65,7 @@ const Navbar = () => {
             className={`h-[45px] transition-all duration-300 ${scrolled || menuOpen ? "" : "invert brightness-0"}`}
           />
           <h1 className={`font-bold text-xl transition-colors ${scrolled || menuOpen ? "text-slate-900" : "text-white"}`}>
-            Osing Dev
+            Osing Dev Studio
           </h1>
         </div>
 
