@@ -1,46 +1,63 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("home");
+  
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Lock Scroll
+  // Lock Scroll saat menu mobile terbuka
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
     return () => { document.body.style.overflow = "auto"; };
   }, [menuOpen]);
 
-  // Scroll Logic
+  // Logic Scroll & Active Link
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      const sections = document.querySelectorAll("section[id]");
-      const scrollY = window.pageYOffset;
+      
+      // Hanya jalankan logic active link jika sedang di halaman home (/)
+      if (location.pathname === "/") {
+        const sections = document.querySelectorAll("section[id]");
+        const scrollY = window.pageYOffset;
 
-      sections.forEach((current) => {
-        const sectionHeight = current.offsetHeight;
-        const sectionTop = current.offsetTop - 100;
-        const sectionId = current.getAttribute("id");
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-          setActive(sectionId);
-        }
-      });
+        sections.forEach((current) => {
+          const sectionHeight = current.offsetHeight;
+          const sectionTop = current.offsetTop - 100;
+          const sectionId = current.getAttribute("id");
+          if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            setActive(sectionId);
+          }
+        });
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   const handleScrollTo = (id) => {
-    const target = document.querySelector(id);
-    if (target) {
-      setMenuOpen(false);
-      window.scrollTo({
-        top: target.offsetTop - 80,
-        behavior: "smooth",
-      });
+    setMenuOpen(false);
+    
+    // Jika user tidak di home, pindah ke home dulu baru scroll
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const target = document.querySelector(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      const target = document.querySelector(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
+      }
     }
   };
 
@@ -53,7 +70,7 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-        scrolled || menuOpen ? "bg-white shadow-md py-2" : "bg-transparent py-5"
+        scrolled || menuOpen || location.pathname !== "/" ? "bg-white shadow-md py-2" : "bg-transparent py-5"
       }`}
     >
       <div className="max-w-6xl mx-auto px-5 flex justify-between items-center">
@@ -62,9 +79,13 @@ const Navbar = () => {
           <img
             src="/logo.png"
             alt="logo"
-            className={`h-[45px] transition-all duration-300 ${scrolled || menuOpen ? "" : "invert brightness-0"}`}
+            className={`h-[45px] transition-all duration-300 ${
+              scrolled || menuOpen || location.pathname !== "/" ? "" : "invert brightness-0"
+            }`}
           />
-          <h1 className={`font-bold text-xl transition-colors ${scrolled || menuOpen ? "text-slate-900" : "text-white"}`}>
+          <h1 className={`font-bold text-xl transition-colors ${
+            scrolled || menuOpen || location.pathname !== "/" ? "text-slate-900" : "text-white"
+          }`}>
             Osing Dev Studio
           </h1>
         </div>
@@ -76,25 +97,31 @@ const Navbar = () => {
               key={item.id}
               onClick={() => handleScrollTo(item.id)}
               className={`font-semibold text-sm transition-colors ${
-                active === item.id.replace("#", "") ? "text-orange-500" : scrolled ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"
+                active === item.id.replace("#", "") && location.pathname === "/"
+                  ? "text-orange-500" 
+                  : (scrolled || location.pathname !== "/") ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"
               }`}
             >
               {item.name}
             </button>
           ))}
-          <a
-            href="https://wa.me/6281938434423"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`font-semibold text-sm transition-colors ${scrolled ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"}`}
+          <button
+            onClick={() => navigate("/kontak")}
+            className={`font-semibold text-sm transition-colors ${
+              location.pathname === "/kontak" 
+                ? "text-orange-500" 
+                : (scrolled || location.pathname !== "/") ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"
+            }`}
           >
             Kontak Kami
-          </a>
+          </button>
         </nav>
 
         {/* HAMBURGER BUTTON */}
         <button
-          className={`md:hidden text-2xl p-2 z-[110] outline-none transition-colors ${menuOpen || scrolled ? "text-slate-900" : "text-white"}`}
+          className={`md:hidden text-2xl p-2 z-[110] outline-none transition-colors ${
+            menuOpen || scrolled || location.pathname !== "/" ? "text-slate-900" : "text-white"
+          }`}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FaTimes /> : <FaBars />}
@@ -107,37 +134,32 @@ const Navbar = () => {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex flex-col h-full pt-28 px-10 gap-8 bg-white">
+        <div className="flex flex-col h-full pt-28 px-10 gap-8 bg-white text-slate-800">
           {navLinks.map((item, index) => (
             <button
               key={item.id}
               onClick={() => handleScrollTo(item.id)}
-              style={{ 
-                transitionDelay: menuOpen ? `${(index + 1) * 100}ms` : "0ms" 
-              }}
+              style={{ transitionDelay: menuOpen ? `${(index + 1) * 100}ms` : "0ms" }}
               className={`text-left text-2xl font-bold transition-all duration-500 transform ${
                 menuOpen ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
-              } ${active === item.id.replace("#", "") ? "text-orange-500" : "text-slate-800"}`}
+              } ${active === item.id.replace("#", "") && location.pathname === "/" ? "text-orange-500" : "text-slate-800"}`}
             >
               {item.name}
             </button>
           ))}
           
-          {/* KONTAK KAMI MOBILE DENGAN ANIMASI */}
-          <a
-            href="https://wa.me/6281938434423"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-            style={{ 
-              transitionDelay: menuOpen ? `${(navLinks.length + 1) * 100}ms` : "0ms" 
+          <button
+            onClick={() => {
+              setMenuOpen(false);
+              navigate("/kontak");
             }}
-            className={`text-left text-2xl font-bold text-slate-800 hover:text-orange-500 transition-all duration-500 transform ${
+            style={{ transitionDelay: menuOpen ? `${(navLinks.length + 1) * 100}ms` : "0ms" }}
+            className={`text-left text-2xl font-bold transition-all duration-500 transform ${
               menuOpen ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
-            }`}
+            } ${location.pathname === "/kontak" ? "text-orange-500" : "text-slate-800"}`}
           >
             Kontak Kami
-          </a>
+          </button>
         </div>
       </div>
     </header>

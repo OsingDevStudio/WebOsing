@@ -1,33 +1,33 @@
-import { HelmetProvider } from 'react-helmet-async'; // Import Provider
-import SEO from "./components/SEO"; // Import komponen SEO yang akan kita buat
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import ContactPage from "./components/ContactPage";
 import Banner from "./components/Banner";
 import Services from "./components/Services";
-import Stats from "./components/Stats";
+import Testimonials from "./components/Testimonials"; 
 import About from "./components/About";
+import Stats from "./components/Stats";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 
 function App() {
   return (
-    <HelmetProvider>
-      {/* 
-          Panggil komponen SEO di sini. 
-          Isi title dan description sesuai dengan target keyword website kamu.
-      */}
-      <SEO 
-        title="Jasa Pembuatan Website Profesional" 
-        description="Solusi digital kreatif untuk membangun website responsif dan modern dengan teknologi terbaru."
-      />
-      
+    <Router>
       <Navbar />
-      <Banner />
-      <Services />
-      <Stats />
-      <About />
-      <CTA />
-      <Footer />
-    </HelmetProvider>
+      <Routes>
+        <Route path="/" element={
+          <main>
+            <section id="home"><Banner /></section>
+            <section id="layanan"><Services /></section>
+            <Testimonials /> 
+            <section id="tentang"><About /></section>
+            <Stats />
+            <CTA />
+            <Footer />
+          </main>
+        } />
+        <Route path="/kontak" element={<ContactPage />} />
+      </Routes>
+    </Router>
   );
 }
 
