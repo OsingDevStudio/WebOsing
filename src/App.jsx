@@ -14,9 +14,7 @@ function App() {
   return (
     <div className="font-sans text-slate-900 bg-white">
       <Navbar />
-      
       <Routes>
-        {/* HALAMAN UTAMA */}
         <Route path="/" element={
           <main>
             <Banner />
@@ -28,11 +26,8 @@ function App() {
             <CTA />
           </main>
         } />
-
-        {/* HALAMAN KONTAK */}
         <Route path="/kontak-kami" element={<ContactPage />} />
       </Routes>
-
       <Footer />
     </div>
   );
