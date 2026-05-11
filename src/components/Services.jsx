@@ -46,11 +46,9 @@ const Services = () => {
         
         {/* HEADER - Animasi Fade Up */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <span className="inline-block bg-orange-100 text-orange-500 px-4 py-1 rounded-full text-sm font-semibold mb-4">
-            Layanan Unggulan
-          </span>
+         
 
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
+         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
             Kenapa Harus <span className="text-orange-500">Kami?</span>
           </h2>
 

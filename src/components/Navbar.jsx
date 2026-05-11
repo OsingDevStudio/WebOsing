@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -21,7 +21,6 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
       
-      // Hanya jalankan logic active link jika sedang di halaman home (/)
       if (location.pathname === "/") {
         const sections = document.querySelectorAll("section[id]");
         const scrollY = window.pageYOffset;
@@ -44,7 +43,6 @@ const Navbar = () => {
   const handleScrollTo = (id) => {
     setMenuOpen(false);
     
-    // Jika user tidak di home, pindah ke home dulu baru scroll
     if (location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
@@ -61,10 +59,9 @@ const Navbar = () => {
     }
   };
 
+  // Menu "Layanan" dan "Tentang" telah dihapus dari array ini
   const navLinks = [
     { name: "Beranda", id: "#home" },
-    { name: "Layanan", id: "#layanan" },
-    { name: "Tentang", id: "#tentang" },
   ];
 
   return (
@@ -105,8 +102,13 @@ const Navbar = () => {
               {item.name}
             </button>
           ))}
+          
+          {/* Tombol Kontak Kami tetap ada secara manual */}
           <button
-            onClick={() => navigate("/kontak")}
+            onClick={() => {
+                setMenuOpen(false);
+                navigate("/kontak");
+            }}
             className={`font-semibold text-sm transition-colors ${
               location.pathname === "/kontak" 
                 ? "text-orange-500" 
