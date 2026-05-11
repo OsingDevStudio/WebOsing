@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
 import About from "./components/About"; 
@@ -7,34 +8,30 @@ import Services from "./components/Services";
 import Testimonials from "./components/Testimonials"; 
 import CTA from "./components/CTA"; 
 import Footer from "./components/Footer";
+import ContactPage from "./components/ContactPage";
 
 function App() {
   return (
     <div className="font-sans text-slate-900 bg-white">
       <Navbar />
       
-      <main>
-        {/* 1. Pembukaan */}
-        <Banner />
-        
-        {/* 2. Alasan Memilih Kami */}
-        <Services />
+      <Routes>
+        {/* HALAMAN UTAMA */}
+        <Route path="/" element={
+          <main>
+            <Banner />
+            <Services />
+            <Portfolio />
+            <Testimonials />
+            <Stats />
+            <About />
+            <CTA />
+          </main>
+        } />
 
-        {/* 3. Bukti Hasil Kerja */}
-        <Portfolio />
-        
-        {/* 4. Testimoni Klien */}
-        <Testimonials />
-
-        {/* 5. Angka & Visi Misi */}
-        <Stats />
-        
-        {/* 6. Tentang Kami (Sekarang pindah ke bawah Stats) */}
-        <About />
-        
-        {/* 7. Penutup & Ajakan Bertindak */}
-        <CTA />
-      </main>
+        {/* HALAMAN KONTAK */}
+        <Route path="/kontak-kami" element={<ContactPage />} />
+      </Routes>
 
       <Footer />
     </div>
