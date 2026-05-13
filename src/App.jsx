@@ -12,7 +12,8 @@ import ContactPage from "./components/ContactPage";
 
 function App() {
   return (
-    <div className="font-sans text-slate-900 bg-white">
+    // Menggunakan text-[#091413] sebagai warna font utama
+    <div className="font-sans text-[#091413] bg-white">
       <Navbar />
       <Routes>
         <Route path="/" element={

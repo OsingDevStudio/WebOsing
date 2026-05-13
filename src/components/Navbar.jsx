@@ -53,6 +53,7 @@ const Navbar = () => {
 
   return (
     <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
+      // Background saat scroll ganti ke Putih murni
       scrolled || menuOpen || location.pathname !== "/" ? "bg-white shadow-md py-2" : "bg-transparent py-5"
     }`}>
       <div className="max-w-6xl mx-auto px-5 flex justify-between items-center">
@@ -60,8 +61,9 @@ const Navbar = () => {
           <img src="/logo.png" alt="logo" className={`h-[45px] transition-all duration-300 ${
             scrolled || menuOpen || location.pathname !== "/" ? "" : "invert brightness-0"
           }`} />
+          {/* Judul teks menggunakan warna paling gelap: #091413 */}
           <h1 className={`font-bold text-xl transition-colors ${
-            scrolled || menuOpen || location.pathname !== "/" ? "text-slate-900" : "text-white"
+            scrolled || menuOpen || location.pathname !== "/" ? "text-[#091413]" : "text-white"
           }`}>Osing Dev Studio</h1>
         </div>
 
@@ -69,33 +71,49 @@ const Navbar = () => {
           {navLinks.map((item) => (
             <button key={item.id} onClick={() => handleScrollTo(item.id)}
               className={`font-semibold text-sm transition-colors ${
-                active === item.id.replace("#", "") && location.pathname === "/" ? "text-orange-500" : (scrolled || location.pathname !== "/") ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"
+                // Aktif menggunakan warna medium: #408A71
+                active === item.id.replace("#", "") && location.pathname === "/" 
+                ? "text-[#408A71]" 
+                : (scrolled || location.pathname !== "/") 
+                ? "text-[#285A48] hover:text-[#408A71]" 
+                : "text-white/90 hover:text-[#B0E4CC]"
               }`}>
               {item.name}
             </button>
           ))}
           <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
             className={`font-semibold text-sm transition-colors ${
-              location.pathname === "/kontak-kami" ? "text-orange-500" : (scrolled || location.pathname !== "/") ? "text-slate-600 hover:text-orange-500" : "text-white/90 hover:text-white"
+              location.pathname === "/kontak-kami" 
+              ? "text-[#408A71]" 
+              : (scrolled || location.pathname !== "/") 
+              ? "text-[#285A48] hover:text-[#408A71]" 
+              : "text-white/90 hover:text-[#B0E4CC]"
             }`}>
             Kontak Kami
           </button>
         </nav>
 
         <button className={`md:hidden text-2xl p-2 z-[110] outline-none ${
-          menuOpen || scrolled || location.pathname !== "/" ? "text-slate-900" : "text-white"
+          // Icon hamburger mengikuti warna gelap #091413
+          menuOpen || scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white"
         }`} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       <div className={`md:hidden fixed inset-0 bg-white z-[105] transition-transform duration-500 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex flex-col h-full pt-28 px-10 gap-8 bg-white text-slate-800">
+        <div className="flex flex-col h-full pt-28 px-10 gap-8 bg-white text-[#091413]">
           {navLinks.map((item) => (
-            <button key={item.id} onClick={() => handleScrollTo(item.id)} className="text-left text-2xl font-bold">{item.name}</button>
+            <button key={item.id} onClick={() => handleScrollTo(item.id)} 
+              className={`text-left text-2xl font-bold ${active === item.id.replace("#", "") ? "text-[#408A71]" : "text-[#091413]"}`}>
+              {item.name}
+            </button>
           ))}
           <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
-            className={`text-left text-2xl font-bold ${location.pathname === "/kontak-kami" ? "text-orange-500" : "text-slate-800"}`}>
+            className={`text-left text-2xl font-bold ${
+              location.pathname === "/kontak-kami" ? "text-[#408A71]" : "text-[#091413]"
+            }`}>
             Kontak Kami
           </button>
         </div>

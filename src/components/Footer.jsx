@@ -10,7 +10,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-950 text-white pt-16 pb-6">
+    <footer className="bg-[#091413] text-white pt-16 pb-6">
       <div className="max-w-6xl mx-auto px-5">
         
         {/* GRID */}
@@ -24,67 +24,72 @@ const Footer = () => {
                 alt="logo"
                 className="h-12 invert brightness-0"
               />
-              <h4 className="text-lg font-semibold">Osing Dev Studio</h4>
+              <h4 className="text-xl font-bold tracking-tight text-white">
+                Osing <span className="text-[#408A71]">Dev</span> Studio
+              </h4>
             </div>
 
-            <p className="text-slate-400 mb-5">
-              Solusi digital inovatif untuk pertumbuhan bisnis Anda di era digital.
+            <p className="text-slate-400 mb-6 leading-relaxed">
+              Solusi digital inovatif untuk pertumbuhan bisnis Anda. Kami mengombinasikan desain estetis dengan performa teknis yang handal.
             </p>
 
             {/* SOCIAL */}
             <div className="flex justify-center md:justify-start gap-4">
-              <a className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-orange-500 transition">
-                <FaInstagram />
-              </a>
-              <a className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-orange-500 transition">
-                <FaFacebook />
-              </a>
-              <a className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-orange-500 transition">
-                <FaLinkedin />
-              </a>
-              <a className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-orange-500 transition">
-                <FaGithub />
-              </a>
+              {[
+                { icon: <FaInstagram />, link: "#" },
+                { icon: <FaFacebook />, link: "#" },
+                { icon: <FaLinkedin />, link: "#" },
+                { icon: <FaGithub />, link: "#" },
+              ].map((social, idx) => (
+                <a 
+                  key={idx}
+                  href={social.link}
+                  className="w-10 h-10 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl hover:bg-[#408A71] hover:border-[#408A71] transition-all duration-300 group"
+                >
+                  <span className="group-hover:scale-110 transition-transform">
+                    {social.icon}
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
 
           {/* LAYANAN */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Layanan</h4>
+          <div className="md:pl-10">
+            <h4 className="text-lg font-semibold mb-6 text-[#B0E4CC]">Layanan</h4>
             <ul className="space-y-3 text-slate-400">
-              <li className="hover:text-orange-500 cursor-pointer transition">
-                Web Development
-              </li>
-              <li className="hover:text-orange-500 cursor-pointer transition">
-                UI/UX Design
-              </li>
-              <li className="hover:text-orange-500 cursor-pointer transition">
-                Mobile App
-              </li>
-              <li className="hover:text-orange-500 cursor-pointer transition">
-                Digital Marketing
-              </li>
+              {["Web Development", "UI/UX Design", "Mobile App", "Digital Marketing"].map((service, idx) => (
+                <li key={idx} className="hover:text-[#408A71] hover:translate-x-1 cursor-pointer transition-all duration-300">
+                  {service}
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* KONTAK */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Kontak</h4>
-            <ul className="space-y-3 text-slate-400">
+            <h4 className="text-lg font-semibold mb-6 text-[#B0E4CC]">Kontak Kami</h4>
+            <ul className="space-y-4 text-slate-400">
               
-              <li className="flex items-center gap-3 justify-center md:justify-start">
-                <FaPhone className="text-orange-500" />
-                +62 819-3843-4423
+              <li className="flex items-center gap-3 justify-center md:justify-start group cursor-pointer">
+                <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#408A71]/10 text-[#408A71]">
+                  <FaPhone />
+                </div>
+                <span className="group-hover:text-white transition-colors">+62 819-3843-4423</span>
               </li>
 
-              <li className="flex items-center gap-3 justify-center md:justify-start">
-                <FaEnvelope className="text-orange-500" />
-                osingdevstudio@gmail.com
+              <li className="flex items-center gap-3 justify-center md:justify-start group cursor-pointer">
+                <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#408A71]/10 text-[#408A71]">
+                  <FaEnvelope />
+                </div>
+                <span className="group-hover:text-white transition-colors">osingdevstudio@gmail.com</span>
               </li>
 
-              <li className="flex items-center gap-3 justify-center md:justify-start">
-                <FaMapMarkerAlt className="text-orange-500" />
-                Banyuwangi, Indonesia
+              <li className="flex items-center gap-3 justify-center md:justify-start group cursor-pointer">
+                <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#408A71]/10 text-[#408A71]">
+                  <FaMapMarkerAlt />
+                </div>
+                <span className="group-hover:text-white transition-colors">Banyuwangi, Indonesia</span>
               </li>
 
             </ul>
@@ -92,8 +97,8 @@ const Footer = () => {
         </div>
 
         {/* BOTTOM */}
-        <div className="border-t border-white/10 pt-6 text-center text-slate-500 text-sm">
-          © 2026 Osing Dev Studio - Hak Cipta Dilindungi
+        <div className="border-t border-white/5 pt-8 mt-10 text-center text-slate-500 text-sm">
+          <p>© 2026 <span className="text-slate-400 font-medium">Osing Dev Studio</span>. Made with Passion in Banyuwangi.</p>
         </div>
       </div>
     </footer>

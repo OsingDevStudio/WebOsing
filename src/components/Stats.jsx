@@ -63,18 +63,26 @@ const Stats = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-slate-800 to-slate-900 text-white"
+      // GANTI: Background menggunakan warna hijau gelap #091413
+      className="py-20 bg-[#091413] text-white relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+      {/* Dekorasi halus di background */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-64 h-64 bg-[#408A71] rounded-full blur-[100px]"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-10 text-center relative z-10">
         {statsData.map((item, index) => (
           <div key={index}>
             {/* NUMBER */}
-            <div className="text-4xl md:text-5xl font-extrabold mb-2 bg-gradient-to-r from-white to-orange-300 bg-clip-text text-transparent">
-              {counts[index]}
+            {/* GANTI: Gradasi angka dari Putih ke Hijau Pucat #B0E4CC */}
+            <div className="text-4xl md:text-5xl font-extrabold mb-2 bg-gradient-to-r from-white via-white to-[#B0E4CC] bg-clip-text text-transparent">
+              {counts[index]}{item.number === 98 ? "%" : "+"}
             </div>
 
             {/* LABEL */}
-            <div className="text-sm md:text-base opacity-80 font-medium">
+            {/* GANTI: Warna label menggunakan putih dengan opacity agar tidak terlalu dominan */}
+            <div className="text-sm md:text-base text-[#B0E4CC] opacity-80 font-medium tracking-wide uppercase">
               {item.label}
             </div>
           </div>
