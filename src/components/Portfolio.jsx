@@ -6,17 +6,17 @@ const Portfolio = () => {
 
   const projects = [
     {
-  id: 1,
-  title: "Risol Aril - Web Ordering System",
-  category: "Food & Beverage Solution",
-  description: "Platform katalog digital dan manajemen pesanan untuk UMKM kuliner. Menghadirkan pengalaman belanja premium dengan navigasi menu yang intuitif.",
-  images: [
-    "Risol1.png", 
-    "Risol2.jpeg",
-    "Risol3.jpeg",
-  ],
-  tags: ["React", "Custom UI", "Order System"],
-},
+      id: 1,
+      title: "Risol Aril - Web Ordering System",
+      category: "Food & Beverage Solution",
+      description: "Platform katalog digital dan manajemen pesanan untuk UMKM kuliner. Menghadirkan pengalaman belanja premium dengan navigasi menu yang intuitif.",
+      images: [
+        "Risol1.png", 
+        "Risol2.jpeg",
+        "Risol3.jpeg",
+      ],
+      tags: ["React", "Custom UI", "Order System"],
+    },
     {
       id: 2,
       title: "E-Commerce Produk Lokal",
@@ -32,15 +32,26 @@ const Portfolio = () => {
   ];
 
   return (
-    <section id="portofolio" className="py-24 bg-slate-50 relative">
-      <div className="max-w-6xl mx-auto px-5">
+    /* 
+       MENAMBAHKAN MOTIF TITIK-TITIK:
+       Menggunakan inline style radial-gradient agar seragam dengan ContactPage.
+    */
+    <section 
+      id="portofolio" 
+      className="py-24 bg-slate-50 relative overflow-hidden"
+      style={{
+        backgroundImage: `radial-gradient(#cbd5e1 1.2px, transparent 1.2px)`,
+        backgroundSize: '24px 24px'
+      }}
+    >
+      <div className="max-w-6xl mx-auto px-5 relative z-10">
         
         {/* HEADER */}
         <div className="text-center mb-16">
-          <span className="text-[#408A71] font-bold tracking-widest uppercase text-sm">
+          <span className="text-[#408A71] font-bold tracking-widest uppercase text-sm bg-white/50 px-4 py-1 rounded-full backdrop-blur-sm border border-slate-200/50">
             Showcase Terkini
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#091413] mt-2">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#091413] mt-4">
             Proyek Pilihan <span className="text-[#408A71]">Osing Dev</span>
           </h2>
         </div>
@@ -50,7 +61,8 @@ const Portfolio = () => {
           {projects.map((project) => (
             <div 
               key={project.id} 
-              className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-100 group transition-all duration-500 hover:-translate-y-2"
+              /* Menggunakan bg-white/80 dan backdrop-blur agar motif titik terlihat samar di balik kartu */
+              className="bg-white/80 backdrop-blur-md rounded-[32px] overflow-hidden shadow-xl shadow-slate-200/50 border border-white transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:bg-white/90"
             >
               {/* DISPLAY MULTI-DEVICE */}
               <div className="p-4">

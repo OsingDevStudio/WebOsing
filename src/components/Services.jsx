@@ -40,13 +40,25 @@ const Services = () => {
   }, []);
 
   return (
-    // bg-white agar kontras dengan section lain, atau bisa gunakan bg-slate-50 jika ingin tetap lembut
-    <section id="layanan" className="py-24 bg-white overflow-hidden">
-      <div className="max-w-6xl mx-auto px-5">
+    <section 
+      id="layanan" 
+      className="py-24 bg-slate-50 relative overflow-hidden"
+      style={{
+        /* MOTIF KOTAK-KOTAK (GRID PATTERN) */
+        backgroundImage: `
+          linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+          linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px' // Menentukan ukuran kotak
+      }}
+    >
+      <div className="max-w-6xl mx-auto px-5 relative z-10">
         
         {/* HEADER */}
         <div className="text-center mb-16" data-aos="fade-up">
-          {/* text-[#091413] untuk heading utama */}
+          <span className="text-[#408A71] font-bold tracking-widest uppercase text-xs bg-white/80 px-4 py-1 rounded-full border border-slate-200 backdrop-blur-sm mb-4 inline-block">
+            Layanan Kami
+          </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#091413]">
             Kenapa Harus <span className="text-[#408A71]">Kami?</span>
           </h2>
@@ -66,18 +78,16 @@ const Services = () => {
                 key={index}
                 data-aos="fade-up"
                 data-aos-delay={index * 100} 
-                className="group bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer relative overflow-hidden border border-slate-100"
+                /* Efek Glassmorphism agar motif kotak terlihat halus di balik kartu */
+                className="group bg-white/80 backdrop-blur-md p-8 rounded-2xl text-center shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer relative overflow-hidden border border-white"
               >
                 {/* ICON BOX */}
-                {/* bg-[#B0E4CC]/30 untuk warna kotak ikon yang lembut */}
-                {/* group-hover:bg-gradient-to-r from-[#408A71] to-[#285A48] saat di-hover */}
-                <div className="w-[70px] h-[70px] mx-auto mb-6 flex items-center justify-center rounded-2xl bg-[#B0E4CC]/30 group-hover:bg-gradient-to-r from-[#408A71] to-[#285A48] transition-all duration-500">
-                  {/* Warna ikon default #408A71 */}
+                <div className="w-[70px] h-[70px] mx-auto mb-6 flex items-center justify-center rounded-2xl bg-[#B0E4CC]/30 group-hover:bg-gradient-to-r from-[#408A71] to-[#285A48] transition-all duration-500 transform group-hover:rotate-6">
                   <Icon className="text-3xl text-[#408A71] group-hover:text-white transition-colors duration-300" />
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-xl font-semibold mb-3 text-[#091413]">
+                <h3 className="text-xl font-bold mb-3 text-[#091413]">
                   {item.title}
                 </h3>
 
@@ -87,8 +97,7 @@ const Services = () => {
                 </p>
 
                 {/* HOVER LINE */}
-                {/* Garis bawah menggunakan gradasi hijau #408A71 ke #285A48 */}
-                <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#408A71] to-[#285A48] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                <div className="absolute bottom-0 left-0 w-full h-[4px] bg-gradient-to-r from-[#408A71] to-[#285A48] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </div>
             );
           })}

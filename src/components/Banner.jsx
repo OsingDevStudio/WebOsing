@@ -51,9 +51,9 @@ const Banner = () => {
         <div className="flex flex-col md:flex-row gap-4 justify-center">
           <button
             onClick={() => {
-              document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
+              // PERBAIKAN: Target diubah ke #layanan agar sesuai dengan ID di Services.jsx
+              document.querySelector("#layanan")?.scrollIntoView({ behavior: "smooth" });
             }}
-            // Gradient dari #408A71 ke #285A48
             className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#408A71] to-[#285A48] px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-[#408A71]/20 hover:-translate-y-1 transition-all"
           >
             Mulai Sekarang →
@@ -62,6 +62,7 @@ const Banner = () => {
           <a
             href="https://wa.me/6281938434423"
             target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 border-2 border-[#B0E4CC] text-[#B0E4CC] px-8 py-3 rounded-full font-semibold hover:bg-[#B0E4CC] hover:text-[#091413] transition-all"
           >
             Konsultasi Gratis
