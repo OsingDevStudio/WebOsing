@@ -9,13 +9,16 @@ import Testimonials from "./components/Testimonials";
 import CTA from "./components/CTA"; 
 import Footer from "./components/Footer";
 import ContactPage from "./components/ContactPage";
+import AboutPage from "./components/AboutPage"; // Import Halaman Baru
 
 function App() {
   return (
     // Menggunakan text-[#091413] sebagai warna font utama
     <div className="font-sans text-[#091413] bg-white">
       <Navbar />
+      
       <Routes>
+        {/* HALAMAN UTAMA (LANDING PAGE) */}
         <Route path="/" element={
           <main>
             <Banner />
@@ -23,12 +26,18 @@ function App() {
             <Portfolio />
             <Testimonials />
             <Stats />
-            <About />
+            <About /> {/* Ini adalah section About di landing page */}
             <CTA />
           </main>
         } />
+
+        {/* HALAMAN TENTANG KAMI (FULL PAGE) */}
+        <Route path="/tentang-kami" element={<AboutPage />} />
+
+        {/* HALAMAN KONTAK */}
         <Route path="/kontak-kami" element={<ContactPage />} />
       </Routes>
+
       <Footer />
     </div>
   );

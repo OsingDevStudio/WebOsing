@@ -51,9 +51,16 @@ const Navbar = () => {
 
   const navLinks = [{ name: "Beranda", id: "#home" }];
 
+  // Helper function untuk styling link aktif
+  const getLinkStyle = (path) => {
+    const isCurrentPath = location.pathname === path;
+    if (isCurrentPath) return "text-[#408A71]";
+    if (scrolled || location.pathname !== "/") return "text-[#285A48] hover:text-[#408A71]";
+    return "text-white/90 hover:text-[#B0E4CC]";
+  };
+
   return (
     <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-      // Background saat scroll ganti ke Putih murni
       scrolled || menuOpen || location.pathname !== "/" ? "bg-white shadow-md py-2" : "bg-transparent py-5"
     }`}>
       <div className="max-w-6xl mx-auto px-5 flex justify-between items-center">
@@ -61,17 +68,16 @@ const Navbar = () => {
           <img src="/logo.png" alt="logo" className={`h-[45px] transition-all duration-300 ${
             scrolled || menuOpen || location.pathname !== "/" ? "" : "invert brightness-0"
           }`} />
-          {/* Judul teks menggunakan warna paling gelap: #091413 */}
           <h1 className={`font-bold text-xl transition-colors ${
             scrolled || menuOpen || location.pathname !== "/" ? "text-[#091413]" : "text-white"
           }`}>Osing Dev Studio</h1>
         </div>
 
+        {/* DESKTOP MENU */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((item) => (
             <button key={item.id} onClick={() => handleScrollTo(item.id)}
               className={`font-semibold text-sm transition-colors ${
-                // Aktif menggunakan warna medium: #408A71
                 active === item.id.replace("#", "") && location.pathname === "/" 
                 ? "text-[#408A71]" 
                 : (scrolled || location.pathname !== "/") 
@@ -81,27 +87,28 @@ const Navbar = () => {
               {item.name}
             </button>
           ))}
+
+          {/* Link Tentang Kami */}
+          <button onClick={() => { setMenuOpen(false); navigate("/tentang-kami"); }}
+            className={`font-semibold text-sm transition-colors ${getLinkStyle("/tentang-kami")}`}>
+            Tentang Kami
+          </button>
+
+          {/* Link Kontak Kami */}
           <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
-            className={`font-semibold text-sm transition-colors ${
-              location.pathname === "/kontak-kami" 
-              ? "text-[#408A71]" 
-              : (scrolled || location.pathname !== "/") 
-              ? "text-[#285A48] hover:text-[#408A71]" 
-              : "text-white/90 hover:text-[#B0E4CC]"
-            }`}>
+            className={`font-semibold text-sm transition-colors ${getLinkStyle("/kontak-kami")}`}>
             Kontak Kami
           </button>
         </nav>
 
         <button className={`md:hidden text-2xl p-2 z-[110] outline-none ${
-          // Icon hamburger mengikuti warna gelap #091413
           menuOpen || scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white"
         }`} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       <div className={`md:hidden fixed inset-0 bg-white z-[105] transition-transform duration-500 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex flex-col h-full pt-28 px-10 gap-8 bg-white text-[#091413]">
           {navLinks.map((item) => (
@@ -110,10 +117,14 @@ const Navbar = () => {
               {item.name}
             </button>
           ))}
+          
+          <button onClick={() => { setMenuOpen(false); navigate("/tentang-kami"); }}
+            className={`text-left text-2xl font-bold ${location.pathname === "/tentang-kami" ? "text-[#408A71]" : "text-[#091413]"}`}>
+            Tentang Kami
+          </button>
+
           <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
-            className={`text-left text-2xl font-bold ${
-              location.pathname === "/kontak-kami" ? "text-[#408A71]" : "text-[#091413]"
-            }`}>
+            className={`text-left text-2xl font-bold ${location.pathname === "/kontak-kami" ? "text-[#408A71]" : "text-[#091413]"}`}>
             Kontak Kami
           </button>
         </div>
