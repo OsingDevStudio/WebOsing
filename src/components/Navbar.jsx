@@ -1,162 +1,113 @@
 import { useEffect, useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [active, setActive] = useState("home");
+  const [profileDropdown, setProfileDropdown] = useState(false);
+  const [legalDropdown, setLegalDropdown] = useState(false); // State baru untuk Perjanjian
   
   const navigate = useNavigate();
   const location = useLocation();
 
-  // FIX: Pengunci scroll yang lebih bersih
-  useEffect(() => {
-    const lockScroll = () => {
-      document.body.style.overflow = "hidden";
-      document.body.style.height = "100vh";
-    };
-
-    const unlockScroll = () => {
-      document.body.style.overflow = "";
-      document.body.style.height = "";
-    };
-
-    if (menuOpen) {
-      lockScroll();
-    } else {
-      unlockScroll();
-    }
-
-    return () => unlockScroll();
-  }, [menuOpen]);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      
-      if (location.pathname === "/") {
-        const sections = document.querySelectorAll("section[id]");
-        const scrollY = window.pageYOffset;
-        sections.forEach((current) => {
-          const sectionHeight = current.offsetHeight;
-          const sectionTop = current.offsetTop - 100;
-          const sectionId = current.getAttribute("id");
-          if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            setActive(sectionId);
-          }
-        });
-      }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [location.pathname]);
+  }, []);
 
-  // FIX: Fungsi scroll yang memastikan menu tutup dulu baru scroll jalan
-  const handleScrollTo = (id) => {
-    setMenuOpen(false); // Ini akan memicu useEffect untuk unlock scroll
-    const sectionId = id.replace("#", "");
-    
-    const performScroll = () => {
-      const target = document.querySelector(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
-        setActive(sectionId);
-      }
-    };
-
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(performScroll, 300); // Beri waktu navigasi antar halaman
-    } else {
-      // Jika sudah di home, langsung scroll
-      setTimeout(performScroll, 100); 
-    }
+  const handleNavigation = (path) => {
+    navigate(path);
+    setMenuOpen(false);
+    setProfileDropdown(false);
+    setLegalDropdown(false);
+    window.scrollTo(0, 0);
   };
 
-  const navLinks = [{ name: "Beranda", id: "#home" }];
-
-  const isActive = (idOrPath) => {
-    if (idOrPath.startsWith("#")) {
-      return active === idOrPath.replace("#", "") && location.pathname === "/";
-    }
-    return location.pathname === idOrPath;
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
-      scrolled || menuOpen || location.pathname !== "/" ? "bg-white shadow-md py-2" : "bg-transparent py-5"
+    <header className={`fixed top-0 left-0 w-full z-[999] transition-all duration-300 ${
+      scrolled || menuOpen || !["/"].includes(location.pathname) ? "bg-white shadow-md py-2" : "bg-transparent py-5"
     }`}>
       <div className="max-w-6xl mx-auto px-5 flex justify-between items-center">
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleScrollTo("#home")}>
-          <img src="/logo.png" alt="logo" className={`h-[45px] transition-all duration-300 ${
-            scrolled || menuOpen || location.pathname !== "/" ? "" : "invert brightness-0"
-          }`} />
-          <h1 className={`font-bold text-xl transition-colors ${
-            scrolled || menuOpen || location.pathname !== "/" ? "text-[#091413]" : "text-white"
-          }`}>Osing Dev Studio</h1>
+        {/* LOGO */}
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavigation("/")}>
+          <img src="/logo.png" alt="logo" className={`h-[40px] ${scrolled || location.pathname !== "/" ? "" : "invert brightness-0"}`} />
+          <h1 className={`font-bold text-xl ${scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white"}`}>Osing Dev</h1>
         </div>
 
+        {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((item) => (
-            <button key={item.id} onClick={() => handleScrollTo(item.id)}
-              className={`font-semibold text-sm transition-colors ${
-                isActive(item.id) ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#285A48]" : "text-white/90")
-              }`}>
-              {item.name}
+          <button onClick={() => handleNavigation("/")} className={`font-semibold text-sm ${isActive("/") ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white")}`}>Beranda</button>
+          
+          {/* DROPDOWN PROFILE */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setProfileDropdown(true)}
+            onMouseLeave={() => setProfileDropdown(false)}
+          >
+            <button className={`font-semibold text-sm flex items-center gap-1 py-2 ${location.pathname.includes("/profile") ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white")}`}>
+              Profile <FaChevronDown size={10} />
             </button>
-          ))}
-          <button onClick={() => { setMenuOpen(false); navigate("/tentang-kami"); }}
-            className={`font-semibold text-sm transition-colors ${isActive("/tentang-kami") ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#285A48]" : "text-white/90")}`}>
-            Tentang Kami
-          </button>
-          <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
-            className={`font-semibold text-sm transition-colors ${isActive("/kontak-kami") ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#285A48]" : "text-white/90")}`}>
-            Kontak Kami
-          </button>
+            
+            {profileDropdown && (
+              <div className="absolute top-[100%] left-0 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100 flex flex-col">
+                <button onClick={() => handleNavigation("/profile/tentang-kami")} className="px-4 py-2 text-sm text-left hover:bg-[#f0f7f5] hover:text-[#408A71] text-gray-800 transition-colors">Tentang Kami</button>
+                <button onClick={() => handleNavigation("/profile/struktur-organisasi")} className="px-4 py-2 text-sm text-left hover:bg-[#f0f7f5] hover:text-[#408A71] text-gray-800 transition-colors">Struktur Organisasi</button>
+              </div>
+            )}
+          </div>
+
+          {/* DROPDOWN PERJANJIAN (Legal) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setLegalDropdown(true)}
+            onMouseLeave={() => setLegalDropdown(false)}
+          >
+            <button className={`font-semibold text-sm flex items-center gap-1 py-2 ${["/syarat-ketentuan", "/kebijakan-privasi"].includes(location.pathname) ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white")}`}>
+              Perjanjian <FaChevronDown size={10} />
+            </button>
+            
+            {legalDropdown && (
+              <div className="absolute top-[100%] left-0 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100 flex flex-col">
+                <button onClick={() => handleNavigation("/syarat-ketentuan")} className="px-4 py-2 text-sm text-left hover:bg-[#f0f7f5] hover:text-[#408A71] text-gray-800 transition-colors">Syarat & Ketentuan</button>
+                <button onClick={() => handleNavigation("/kebijakan-privasi")} className="px-4 py-2 text-sm text-left hover:bg-[#f0f7f5] hover:text-[#408A71] text-gray-800 transition-colors">Kebijakan Privasi</button>
+              </div>
+            )}
+          </div>
+
+          <button onClick={() => handleNavigation("/kontak-kami")} className={`font-semibold text-sm ${isActive("/kontak-kami") ? "text-[#408A71]" : (scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white")}`}>Kontak Kami</button>
         </nav>
 
-        <button className={`md:hidden text-2xl p-2 z-[110] outline-none ${
-          menuOpen || scrolled || location.pathname !== "/" ? "text-[#091413]" : "text-white"
-        }`} onClick={() => setMenuOpen(!menuOpen)}>
+        {/* MOBILE TOGGLE */}
+        <button className={`md:hidden text-2xl ${scrolled || menuOpen || location.pathname !== "/" ? "text-[#091413]" : "text-white"}`} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      <div className={`md:hidden fixed top-0 left-0 w-full bg-white z-[120] shadow-xl transition-transform duration-500 ease-in-out ${
-        menuOpen ? "translate-y-0" : "-translate-y-full"
-      }`}>
-        <div className="flex w-full h-14 bg-black justify-end items-stretch">
-          <button 
-            className="w-14 bg-red-600 flex items-center justify-center text-white text-2xl active:bg-red-700 transition-colors"
-            onClick={() => setMenuOpen(false)}
-          >
-            <FaTimes />
-          </button>
-        </div>
-
-        <div className="flex flex-col py-10 px-10 gap-8 bg-white text-[#091413]">
-          {navLinks.map((item) => (
-            <button key={item.id} onClick={() => handleScrollTo(item.id)} 
-              className={`text-left text-2xl font-bold transition-colors ${isActive(item.id) ? "text-[#408A71]" : "text-[#091413]"}`}>
-              {item.name}
-            </button>
-          ))}
-          
-          <button onClick={() => { setMenuOpen(false); navigate("/tentang-kami"); }}
-            className={`text-left text-2xl font-bold transition-colors ${isActive("/tentang-kami") ? "text-[#408A71]" : "text-[#091413]"}`}>
-            Tentang Kami
-          </button>
-
-          <button onClick={() => { setMenuOpen(false); navigate("/kontak-kami"); }}
-            className={`text-left text-2xl font-bold transition-colors ${isActive("/kontak-kami") ? "text-[#408A71]" : "text-[#091413]"}`}>
-            Kontak Kami
-          </button>
-        </div>
-      </div>
-
+      {/* MOBILE MENU PANEL */}
       {menuOpen && (
-        <div className="fixed inset-0 bg-black/40 z-[115] md:hidden h-full" onClick={() => setMenuOpen(false)} />
+        <div className="md:hidden fixed inset-0 bg-white z-[1000] flex flex-col p-10 pt-24 gap-6 overflow-y-auto">
+          <button onClick={() => handleNavigation("/")} className="text-2xl font-bold text-left">Beranda</button>
+          
+          <div className="border-l-4 border-[#408A71] pl-4 flex flex-col gap-4">
+            <span className="text-gray-400 text-sm font-bold tracking-widest uppercase">Profile</span>
+            <button onClick={() => handleNavigation("/profile/tentang-kami")} className="text-xl font-bold text-left text-gray-800">Tentang Kami</button>
+            <button onClick={() => handleNavigation("/profile/struktur-organisasi")} className="text-xl font-bold text-left text-gray-800">Struktur Organisasi</button>
+          </div>
+
+          <div className="border-l-4 border-[#408A71] pl-4 flex flex-col gap-4">
+            <span className="text-gray-400 text-sm font-bold tracking-widest uppercase">Perjanjian</span>
+            <button onClick={() => handleNavigation("/syarat-ketentuan")} className="text-xl font-bold text-left text-gray-800">Syarat & Ketentuan</button>
+            <button onClick={() => handleNavigation("/kebijakan-privasi")} className="text-xl font-bold text-left text-gray-800">Kebijakan Privasi</button>
+          </div>
+
+          <button onClick={() => handleNavigation("/kontak-kami")} className="text-2xl font-bold text-left">Kontak Kami</button>
+        </div>
       )}
     </header>
   );
