@@ -4,7 +4,7 @@ import Banner from "./components/Banner";
 import Services from "./components/Services";
 import Portfolio from "./components/Portfolio";
 import Testimonials from "./components/Testimonials";
-import Stats from "./components/Stats";
+// import Stats from "./components/Stats";
 import About from "./components/About"; 
 import CTA from "./components/CTA"; 
 import Footer from "./components/Footer";
@@ -29,7 +29,7 @@ function App() {
             <Services />
             <Portfolio />
             <Testimonials />
-            <Stats />
+            {/* <Stats /> */}
             <About /> 
             <CTA />
           </main>

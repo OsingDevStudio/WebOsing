@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom"; // Tambahkan ini
 import { 
   FaClipboardList, 
   FaUserSecret, 
@@ -82,16 +83,19 @@ const KebijakanPrivasi = () => {
             whileInView={{ opacity: 1 }}
             className="mt-20 p-10 rounded-[3rem] bg-gradient-to-br from-[#091413] to-[#1a2e2b] text-white flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden"
           >
-            <div className="relative z-10">
+            <div className="relative z-10 text-center md:text-left">
               <h4 className="text-2xl font-bold mb-2">Privasi Anda Aman Bersama Kami.</h4>
               <p className="text-[#B0E4CC]/70">Punya pertanyaan lebih lanjut mengenai penggunaan data?</p>
             </div>
-            <button 
-              className="relative z-10 px-8 py-4 bg-[#408A71] hover:bg-[#285A48] text-white rounded-2xl font-bold transition-all shadow-lg"
-              onClick={() => window.location.href = '/kontak-kami'}
+            
+            {/* PERBAIKAN DI SINI: Menggunakan Link sebagai pengganti button click */}
+            <Link 
+              to="/kontak-kami" 
+              className="relative z-20 px-8 py-4 bg-[#408A71] hover:bg-[#285A48] text-white rounded-2xl font-bold transition-all shadow-lg hover:-translate-y-1 active:scale-95 text-center"
             >
               Hubungi Tim Legal
-            </button>
+            </Link>
+
             {/* Background Accent */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#408A71] rounded-full blur-[100px] opacity-20 -mr-20 -mt-20" />
           </motion.div>

@@ -29,7 +29,7 @@ const TentangKami = () => {
   return (
     <div className="bg-white min-h-screen overflow-x-hidden font-sans">
       
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION - MODIFIED */}
       <section className="pt-32 pb-20 px-5 bg-[#091413] text-white relative overflow-hidden">
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
@@ -47,22 +47,21 @@ const TentangKami = () => {
             <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-lg">
               Kami mentransformasi ide menjadi solusi digital luar biasa dengan teknologi website masa kini yang cepat, aman, dan responsif.
             </p>
-            <div className="flex gap-8 border-t border-white/10 pt-8">
-              <div><h3 className="text-3xl font-bold text-[#408A71]">50+</h3><p className="text-xs text-white/50 uppercase tracking-wider">Proyek Selesai</p></div>
-              <div><h3 className="text-3xl font-bold text-[#408A71]">24/7</h3><p className="text-xs text-white/50 uppercase tracking-wider">Dukungan Ahli</p></div>
-            </div>
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, x: 50 }} 
             animate={{ opacity: 1, x: 0 }} 
             transition={{ duration: 0.8, delay: 0.2 }} 
-            className="relative"
+            className="relative flex justify-center md:justify-end" // Flex for responsive positioning
           >
+            {/* UPDATED IMAGE ELEMENT */}
             <img 
               src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000" 
               alt="Studio Osing Dev" 
-              className="rounded-2xl grayscale shadow-2xl border border-white/10" 
+              // RESPONSIVE CSS CLASSES APPLIED
+              className="w-full h-auto max-w-lg md:max-w-full rounded-2xl shadow-2xl border border-white/10"
+              // `grayscale` class has been removed for full color
             />
           </motion.div>
         </div>
@@ -94,6 +93,9 @@ const TentangKami = () => {
               <FaRocket />
             </div>
             <h3 className="text-3xl font-bold mb-5">Misi Kami</h3>
+            <p className="text-white/70 text-lg leading-relaxed mb-3">
+              Untuk mencapai visi tersebut, kami berkomitmen untuk:
+            </p>
             <ul className="space-y-4 text-white/70">
               <li className="flex gap-3"><span className="text-[#408A71] font-bold">✓</span> Membangun ekosistem web intuitif & performa tinggi.</li>
               <li className="flex gap-3"><span className="text-[#408A71] font-bold">✓</span> Memberikan dukungan teknis yang proaktif dan solutif.</li>
@@ -131,7 +133,7 @@ const TentangKami = () => {
         </div>
       </section>
 
-      {/* 4. FILOSOFI KERJA (POSISI DI BAWAH NILAI-NILAI) */}
+      {/* 4. FILOSOFI KERJA */}
       <section className="py-24 bg-[#091413] text-white px-5 overflow-hidden">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <motion.div 
